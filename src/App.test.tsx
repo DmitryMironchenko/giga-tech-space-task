@@ -14,7 +14,7 @@ describe('App', () => {
     render(<App />);
 
     // check if App rendered the checkboxes
-    expect(screen.getAllByRole('checkbox')).toHaveLength(7);
+    expect(screen.getAllByRole('checkbox')).toHaveLength(8); // 7 checkboxes + 1 special one
 
     // select the first checkbox
     screen.getAllByRole('checkbox')[0].click();

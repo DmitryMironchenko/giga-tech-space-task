@@ -1,18 +1,18 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
-import { useLetterQuery } from './useLetterQuery';
+import { useCheckboxContext } from '../checkbox-context/useCheckboxContext';
+import { useLetterSpecialQuery } from './useLetterSpecialQuery';
 
-interface Props {
-  index: number;
-}
+const MAX_LETTERS = 300;
 
-const MAX_LETTERS = 30;
+const SpecialComponent: FC = () => {
+  const { checkboxIndices } = useCheckboxContext();
+  const indicesToRequest = checkboxIndices;
 
-const Component: FC<Props> = ({ index }) => {
   const data = useRef<string[]>([]);
   const [, forceRender] = useState(false);
 
-  const { data: datum } = useLetterQuery(index);
+  const { data: datum } = useLetterSpecialQuery(indicesToRequest);
 
   useEffect(() => {
     if (data.current.length < MAX_LETTERS) {
@@ -25,9 +25,9 @@ const Component: FC<Props> = ({ index }) => {
   }, [data, datum]);
 
   return (
-    <div className="rounded-md overflow-hidden drop-shadow-md bg-slate-300 h-60 w-60" data-testid="component">
+    <div className="rounded-md overflow-hidden drop-shadow-md bg-slate-400 h-60 w-60" data-testid="component">
       <p className="text-sm text-gray-800/50 p-2" data-testid="component-letters">
-        {data.current.join('')}
+        {data.current}
       </p>
     </div>
   );
@@ -35,4 +35,4 @@ const Component: FC<Props> = ({ index }) => {
   return null;
 };
 
-export default Component;
+export default SpecialComponent;

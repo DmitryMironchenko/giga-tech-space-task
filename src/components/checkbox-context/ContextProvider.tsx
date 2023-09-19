@@ -5,6 +5,8 @@ import { CheckboxContext, CheckboxContextType } from './context';
 
 const CheckboxContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [checkboxIndices, setCheckboxIndices] = useState<number[]>([]);
+  const [isSpecialShown, setIsSpecialShown] = useState<boolean>(false);
+
   const onCheckboxToggle: CheckboxContextType['onCheckboxToggle'] = (checkboxIndex) => {
     // if already in array - remove it
     // if not in array - add it at the bottom
@@ -22,7 +24,15 @@ const CheckboxContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  return <CheckboxContext.Provider value={{ checkboxIndices, onCheckboxToggle }}>{children}</CheckboxContext.Provider>;
+  const toggleSpecial: CheckboxContextType['toggleSpecial'] = () => {
+    setIsSpecialShown((prev) => !prev);
+  };
+
+  return (
+    <CheckboxContext.Provider value={{ checkboxIndices, onCheckboxToggle, isSpecialShown, toggleSpecial }}>
+      {children}
+    </CheckboxContext.Provider>
+  );
 };
 
 export default CheckboxContextProvider;
